@@ -27,11 +27,19 @@ Users answer personality assessment questions and receive career suggestions, in
 - `pom.xml` — Maven dependencies and project configuration
 
 ## How to Run
-1. Install Java and MySQL.
-2. Create the database and configure the database settings.
-3. Configure the application properties.
-4. Run the Spring Boot application.
-5. Open the application in your browser at `http://localhost:8080`.
+
+### Prerequisites
+- Java JDK compatible with the project
+- MySQL Server
+- Maven (or use the Maven Wrapper if included)
+
+### Setup Instructions
+1. Clone or download this repository.
+2. Create the MySQL database and import `src/main/resources/data.sql` if the script is compatible with your database setup.
+3. Update the database URL, username, and password in `src/main/resources/application.properties`.
+4. Set the `JWT_SECRET` environment variable to a strong, randomly generated secret of at least 32 bytes.
+5. Build and run the Spring Boot application using Maven.
+6. Open `http://localhost:8080` in your browser.
 
 ## Note
 This project was developed for learning and demonstration purposes. Database and authentication settings may need to be configured for your environment.
