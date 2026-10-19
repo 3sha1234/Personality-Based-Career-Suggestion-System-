@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Your Results — CareerDNA</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--card:#1a1a24;--border:rgba(255,255,255,0.07);--text:#e8e8f0;--muted:#6b6b80;--accent-a:#7c6aff;--accent-b:#ff6a9e;--accent-c:#6affcc;--accent-d:#ffb86a;--accent-e:#6aaeff;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;}
+nav{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 2.5rem;border-bottom:1px solid var(--border);position:sticky;top:0;background:rgba(10,10,15,0.9);backdrop-filter:blur(20px);z-index:100;}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.3rem;background:linear-gradient(135deg,var(--accent-a),var(--accent-b));-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-decoration:none;}
+.nav-links{display:flex;gap:1rem;align-items:center;}
+.btn-sm{padding:0.5rem 1rem;border-radius:7px;font-size:0.82rem;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--muted);font-family:'DM Sans',sans-serif;text-decoration:none;transition:all 0.2s;}
+.btn-sm:hover{border-color:var(--accent-a);color:var(--text);}
+
+.wrapper{max-width:860px;margin:0 auto;padding:3rem 1.5rem;}
+
+/* HERO RESULT */
+.result-hero{text-align:center;padding:2rem 0 3rem;position:relative;}
+.result-badge{
+  display:inline-flex;align-items:center;gap:0.75rem;
+  background:var(--card);border:1px solid var(--border);
+  border-radius:100px;padding:0.6rem 1.5rem;margin-bottom:1.5rem;
+  font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;
+}
+.result-badge .icon{font-size:1.6rem;}
+
+.result-hero h1{
+  font-family:'Syne',sans-serif;font-size:clamp(2.5rem,6vw,4rem);
+  font-weight:800;letter-spacing:-0.03em;margin-bottom:0.75rem;
+}
+
+.result-hero p{color:var(--muted);font-size:1rem;max-width:480px;margin:0 auto;}
+
+/* SCORE BREAKDOWN */
+.scores-section{margin:2.5rem 0;}
+.section-title{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;margin-bottom:1.25rem;letter-spacing:-0.01em;}
+
+.score-bars{display:flex;flex-direction:column;gap:1rem;}
+.score-row{display:flex;align-items:center;gap:1rem;}
+.score-label{width:110px;font-size:0.85rem;flex-shrink:0;display:flex;align-items:center;gap:0.4rem;}
+.score-track{flex:1;height:10px;background:var(--surface);border-radius:100px;overflow:hidden;}
+.score-fill{height:100%;border-radius:100px;transition:width 1s cubic-bezier(0.4,0,0.2,1);}
+.score-value{width:35px;text-align:right;font-size:0.82rem;font-weight:600;color:var(--muted);}
+
+/* CAREER CARDS */
+.careers-section{margin:2.5rem 0;}
+.careers-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:1rem;}
+
+.career-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:16px;padding:1.75rem;
+  transition:all 0.2s;cursor:pointer;
+}
+.career-card:hover{transform:translateY(-2px);border-color:rgba(124,106,255,0.3);}
+
+.career-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem;}
+.career-title{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;}
+.career-salary{font-size:0.75rem;color:var(--accent-c);background:rgba(106,255,204,0.1);padding:0.25rem 0.6rem;border-radius:4px;white-space:nowrap;}
+
+.career-desc{font-size:0.85rem;color:var(--muted);line-height:1.6;margin-bottom:1.25rem;}
+
+.skills-wrap{display:flex;flex-wrap:wrap;gap:0.4rem;}
+.skill-tag{font-size:0.72rem;padding:0.25rem 0.6rem;border-radius:5px;background:rgba(124,106,255,0.08);border:1px solid rgba(124,106,255,0.15);color:var(--accent-a);}
+
+.career-meta{display:flex;gap:1rem;margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border);}
+.meta-item{font-size:0.75rem;color:var(--muted);display:flex;flex-direction:column;gap:0.2rem;}
+.meta-item strong{color:var(--text);font-size:0.8rem;}
+
+/* RETAKE */
+.retake-section{text-align:center;margin:3rem 0;}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:0.5rem;padding:0.8rem 1.75rem;border-radius:10px;font-family:'DM Sans',sans-serif;font-weight:500;font-size:0.9rem;cursor:pointer;border:none;text-decoration:none;transition:all 0.2s;}
+.btn-primary{background:linear-gradient(135deg,var(--accent-a),var(--accent-b));color:#fff;}
+.btn-primary:hover{opacity:0.9;transform:translateY(-1px);}
+.btn-outline{background:transparent;border:1px solid var(--border);color:var(--text);margin-left:1rem;}
+.btn-outline:hover{border-color:var(--accent-a);}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="../index.html" class="logo">CareerDNA</a>
+  <div class="nav-links">
+    <a href="dashboard.html" class="btn-sm">Dashboard</a>
+    <a href="careers.html" class="btn-sm">All Careers</a>
+  </div>
+</nav>
+
+<div class="wrapper" id="page"></div>
+
+<script src="../js/api.js"></script>
+<script>
+const result = JSON.parse(sessionStorage.getItem('testResult') || 'null');
+const page = document.getElementById('page');
+
+if (!result) {
+  page.innerHTML = `<div style="text-align:center;padding:4rem 2rem;">
+    <h2 style="font-family:'Syne',sans-serif;margin-bottom:1rem;">No results found</h2>
+    <p style="color:var(--muted);margin-bottom:2rem;">Take the test first to see your results.</p>
+    <a href="test.html" class="btn btn-primary">Take the Test</a>
+  </div>`;
+} else {
+  renderResults(result);
+}
+
+function renderResults(r) {
+  const p = PERSONALITY[r.dominantPersonality] || PERSONALITY.ANALYTICAL;
+  const totalScore = r.analyticalScore + r.creativeScore + r.socialScore + r.leadershipScore + r.practicalScore;
+
+  const scoreData = [
+    { label: 'Analytical', icon: '🔬', value: r.analyticalScore, color: '#7c6aff' },
+    { label: 'Creative',   icon: '🎨', value: r.creativeScore,   color: '#ff6a9e' },
+    { label: 'Social',     icon: '🤝', value: r.socialScore,     color: '#6affcc' },
+    { label: 'Leadership', icon: '🚀', value: r.leadershipScore, color: '#ffb86a' },
+    { label: 'Practical',  icon: '🔧', value: r.practicalScore,  color: '#6aaeff' },
+  ];
+
+  page.innerHTML = `
+    <!-- RESULT HERO -->
+    <div class="result-hero">
+      <div class="result-badge" style="border-color:${p.color}30;color:${p.color}">
+        <span class="icon">${p.icon}</span>
+        ${p.label} Personality
+      </div>
+      <h1 style="background:linear-gradient(135deg,${p.color},var(--accent-b));-webkit-background-clip:text;-webkit-text-fill-color:transparent">
+        You're a ${p.label}!
+      </h1>
+      <p>Based on your answers, you are most suited for careers that leverage your ${p.label.toLowerCase()} strengths. Here are your best matches:</p>
+    </div>
+
+    <!-- SCORE BREAKDOWN -->
+    <div class="scores-section">
+      <div class="section-title">Your Personality Breakdown</div>
+      <div class="score-bars">
+        ${scoreData.map(s => `
+          <div class="score-row">
+            <div class="score-label">${s.icon} ${s.label}</div>
+            <div class="score-track">
+              <div class="score-fill" style="width:${totalScore ? Math.round((s.value/totalScore)*100) : 0}%;background:${s.color}"></div>
+            </div>
+            <div class="score-value">${s.value}pts</div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+
+    <!-- CAREER RECOMMENDATIONS -->
+    <div class="careers-section">
+      <div class="section-title">Recommended Careers for You (${r.careers?.length || 0})</div>
+      <div class="careers-grid">
+        ${(r.careers || []).map(c => `
+          <div class="career-card">
+            <div class="career-header">
+              <div class="career-title">${c.title}</div>
+              ${c.averageSalary ? `<div class="career-salary">${c.averageSalary.split(' ')[0]}</div>` : ''}
+            </div>
+            <div class="career-desc">${c.description}</div>
+            <div class="skills-wrap">
+              ${(Array.isArray(c.skillsRequired) ? c.skillsRequired : []).slice(0,6).map(s =>
+                `<span class="skill-tag">${s.trim()}</span>`
+              ).join('')}
+            </div>
+            <div class="career-meta">
+              ${c.jobOutlook ? `<div class="meta-item"><span>Outlook</span><strong>${c.jobOutlook.split('(')[0].trim()}</strong></div>` : ''}
+              ${c.educationRequired ? `<div class="meta-item"><span>Education</span><strong>${c.educationRequired.split(' ').slice(0,2).join(' ')}</strong></div>` : ''}
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+
+    <!-- RETAKE -->
+    <div class="retake-section">
+      <a href="test.html" class="btn btn-primary">Retake Test</a>
+      <a href="careers.html" class="btn btn-outline">Browse All Careers</a>
+    </div>
+  `;
+
+  // Animate bars after render
+  setTimeout(() => {
+    document.querySelectorAll('.score-fill').forEach(el => {
+      const w = el.style.width;
+      el.style.width = '0';
+      setTimeout(() => el.style.width = w, 100);
+    });
+  }, 100);
+}
+</script>
+</body>
+</html>
