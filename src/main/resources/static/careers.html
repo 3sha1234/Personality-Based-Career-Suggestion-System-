@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Careers — CareerDNA</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--card:#1a1a24;--border:rgba(255,255,255,0.07);--text:#e8e8f0;--muted:#6b6b80;--accent-a:#7c6aff;--accent-b:#ff6a9e;--accent-c:#6affcc;--accent-d:#ffb86a;--accent-e:#6aaeff;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;}
+nav{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 2.5rem;border-bottom:1px solid var(--border);position:sticky;top:0;background:rgba(10,10,15,0.9);backdrop-filter:blur(20px);z-index:100;}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.3rem;background:linear-gradient(135deg,var(--accent-a),var(--accent-b));-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-decoration:none;}
+.nav-links{display:flex;gap:1rem;align-items:center;}
+.btn-sm{padding:0.5rem 1rem;border-radius:7px;font-size:0.82rem;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--muted);font-family:'DM Sans',sans-serif;text-decoration:none;transition:all 0.2s;}
+.btn-sm:hover{border-color:var(--accent-a);color:var(--text);}
+.btn-sm.active{background:var(--accent-a);color:#fff;border-color:var(--accent-a);}
+
+.wrapper{max-width:1100px;margin:0 auto;padding:3rem 1.5rem;}
+
+.page-header{margin-bottom:2.5rem;}
+.page-header h1{font-family:'Syne',sans-serif;font-size:2.2rem;font-weight:800;letter-spacing:-0.02em;margin-bottom:0.5rem;}
+.page-header p{color:var(--muted);}
+
+/* FILTERS */
+.filters{display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:2rem;}
+.filter-btn{
+  padding:0.5rem 1.1rem;border-radius:100px;font-size:0.82rem;font-weight:500;
+  cursor:pointer;border:1.5px solid var(--border);background:transparent;
+  color:var(--muted);font-family:'DM Sans',sans-serif;transition:all 0.2s;
+}
+.filter-btn:hover,.filter-btn.active{color:var(--text);border-color:var(--accent-a);}
+.filter-btn[data-type="ANALYTICAL"].active{border-color:#7c6aff;color:#7c6aff;background:rgba(124,106,255,0.1);}
+.filter-btn[data-type="CREATIVE"].active{border-color:#ff6a9e;color:#ff6a9e;background:rgba(255,106,158,0.1);}
+.filter-btn[data-type="SOCIAL"].active{border-color:#6affcc;color:#6affcc;background:rgba(106,255,204,0.1);}
+.filter-btn[data-type="LEADERSHIP"].active{border-color:#ffb86a;color:#ffb86a;background:rgba(255,184,106,0.1);}
+.filter-btn[data-type="PRACTICAL"].active{border-color:#6aaeff;color:#6aaeff;background:rgba(106,174,255,0.1);}
+
+/* GRID */
+.careers-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1rem;}
+
+.career-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:16px;padding:1.75rem;cursor:pointer;transition:all 0.25s;
+}
+.career-card:hover{transform:translateY(-3px);}
+
+.cc-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;}
+.personality-badge{font-size:0.72rem;font-weight:600;padding:0.25rem 0.65rem;border-radius:5px;letter-spacing:0.03em;}
+
+.career-title{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;margin-bottom:0.6rem;}
+.career-desc{font-size:0.84rem;color:var(--muted);line-height:1.55;margin-bottom:1.25rem;}
+.career-salary{font-size:0.82rem;font-weight:500;color:var(--accent-c);margin-bottom:0.75rem;}
+.skills-wrap{display:flex;flex-wrap:wrap;gap:0.35rem;}
+.skill-tag{font-size:0.7rem;padding:0.2rem 0.55rem;border-radius:4px;border:1px solid var(--border);color:var(--muted);}
+
+.career-footer{display:flex;gap:1rem;margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border);}
+.meta-item{font-size:0.73rem;color:var(--muted);}
+.meta-item strong{color:var(--text);display:block;font-size:0.78rem;}
+
+/* Modal */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(4px);z-index:500;display:none;align-items:center;justify-content:center;padding:1.5rem;}
+.modal-overlay.open{display:flex;}
+.modal{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:2.5rem;max-width:560px;width:100%;max-height:85vh;overflow-y:auto;position:relative;}
+.modal h2{font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;margin-bottom:0.5rem;letter-spacing:-0.02em;}
+.modal-close{position:absolute;top:1.25rem;right:1.25rem;background:var(--surface);border:1px solid var(--border);color:var(--muted);width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;}
+.modal-section{margin-top:1.5rem;}
+.modal-section-title{font-size:0.75rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:0.6rem;}
+.modal-section p{font-size:0.88rem;line-height:1.7;color:var(--text);}
+
+.no-results{text-align:center;padding:4rem 2rem;color:var(--muted);}
+</style>
+</head>
+<body>
+<nav>
+  <a href="../index.html" class="logo">CareerDNA</a>
+  <div class="nav-links">
+    <a href="test.html" class="btn-sm">Take Test</a>
+    <a href="dashboard.html" class="btn-sm">Dashboard</a>
+  </div>
+</nav>
+
+<div class="wrapper">
+  <div class="page-header">
+    <h1>Explore Careers</h1>
+    <p>Browse all careers organized by personality type. Click any card for details.</p>
+  </div>
+
+  <div class="filters">
+    <button class="filter-btn active" data-type="ALL" onclick="filter('ALL', this)">All Careers</button>
+    <button class="filter-btn" data-type="ANALYTICAL" onclick="filter('ANALYTICAL', this)">🔬 Analytical</button>
+    <button class="filter-btn" data-type="CREATIVE" onclick="filter('CREATIVE', this)">🎨 Creative</button>
+    <button class="filter-btn" data-type="SOCIAL" onclick="filter('SOCIAL', this)">🤝 Social</button>
+    <button class="filter-btn" data-type="LEADERSHIP" onclick="filter('LEADERSHIP', this)">🚀 Leadership</button>
+    <button class="filter-btn" data-type="PRACTICAL" onclick="filter('PRACTICAL', this)">🔧 Practical</button>
+  </div>
+
+  <div class="careers-grid" id="careers-grid">
+    <div style="color:var(--muted);padding:2rem">Loading careers...</div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modal" onclick="closeModal(event)">
+  <div class="modal" id="modal-content"></div>
+</div>
+
+<script src="../js/api.js"></script>
+<script>
+let allCareers = [];
+
+const P_STYLES = {
+  ANALYTICAL: {color:'#7c6aff',bg:'rgba(124,106,255,0.1)',icon:'🔬'},
+  CREATIVE:   {color:'#ff6a9e',bg:'rgba(255,106,158,0.1)',icon:'🎨'},
+  SOCIAL:     {color:'#6affcc',bg:'rgba(106,255,204,0.1)',icon:'🤝'},
+  LEADERSHIP: {color:'#ffb86a',bg:'rgba(255,184,106,0.1)',icon:'🚀'},
+  PRACTICAL:  {color:'#6aaeff',bg:'rgba(106,174,255,0.1)',icon:'🔧'},
+};
+
+async function load() {
+  allCareers = await CareerAPI.getAll();
+  renderCareers(allCareers);
+}
+
+function renderCareers(careers) {
+  const grid = document.getElementById('careers-grid');
+  if (!careers.length) {
+    grid.innerHTML = '<div class="no-results">No careers found.</div>';
+    return;
+  }
+
+  grid.innerHTML = careers.map((c,i) => {
+    const ps = P_STYLES[c.personalityType] || P_STYLES.ANALYTICAL;
+    const skills = c.skillsRequired ? c.skillsRequired.split(',') : [];
+    return `
+      <div class="career-card" onclick="openModal(${i})" style="border-top:3px solid ${ps.color}">
+        <div class="cc-top">
+          <span class="personality-badge" style="background:${ps.bg};color:${ps.color}">${ps.icon} ${c.personalityType}</span>
+          ${c.averageSalary ? `<span style="font-size:0.75rem;color:var(--muted)">${c.averageSalary.split('-')[0].trim()}</span>` : ''}
+        </div>
+        <div class="career-title">${c.title}</div>
+        <div class="career-desc">${c.description}</div>
+        <div class="skills-wrap">
+          ${skills.slice(0,5).map(s => `<span class="skill-tag">${s.trim()}</span>`).join('')}
+          ${skills.length > 5 ? `<span class="skill-tag">+${skills.length-5}</span>` : ''}
+        </div>
+        <div class="career-footer">
+          ${c.jobOutlook ? `<div class="meta-item"><strong>${c.jobOutlook.split('(')[0].trim()}</strong>Job Outlook</div>` : ''}
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function filter(type, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const filtered = type === 'ALL' ? allCareers : allCareers.filter(c => c.personalityType === type);
+  renderCareers(filtered);
+}
+
+// Store filtered index vs all careers by title
+function openModal(index) {
+  // find from current displayed cards
+  const cards = document.querySelectorAll('.career-card');
+  const titles = [...cards].map(c => c.querySelector('.career-title').textContent);
+  const career = allCareers.find(c => c.title === titles[index]);
+  if (!career) return;
+
+  const ps = P_STYLES[career.personalityType] || P_STYLES.ANALYTICAL;
+  const skills = career.skillsRequired ? career.skillsRequired.split(',') : [];
+
+  document.getElementById('modal-content').innerHTML = `
+    <button class="modal-close" onclick="document.getElementById('modal').classList.remove('open')">✕</button>
+    <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem">
+      <span style="font-size:2rem">${ps.icon}</span>
+      <span style="font-size:0.75rem;font-weight:600;padding:0.25rem 0.65rem;border-radius:5px;background:${ps.bg};color:${ps.color}">${career.personalityType}</span>
+    </div>
+    <h2>${career.title}</h2>
+    ${career.averageSalary ? `<p style="color:var(--accent-c);font-size:0.9rem;margin-top:0.3rem">💰 ${career.averageSalary}</p>` : ''}
+
+    <div class="modal-section">
+      <div class="modal-section-title">About This Career</div>
+      <p>${career.description}</p>
+    </div>
+
+    ${skills.length ? `
+    <div class="modal-section">
+      <div class="modal-section-title">Skills Required</div>
+      <div class="skills-wrap" style="margin-top:0.25rem">
+        ${skills.map(s => `<span class="skill-tag">${s.trim()}</span>`).join('')}
+      </div>
+    </div>` : ''}
+
+    ${career.educationRequired ? `
+    <div class="modal-section">
+      <div class="modal-section-title">Education Required</div>
+      <p>${career.educationRequired}</p>
+    </div>` : ''}
+
+    ${career.dayInLife ? `
+    <div class="modal-section">
+      <div class="modal-section-title">A Day in the Life</div>
+      <p>${career.dayInLife}</p>
+    </div>` : ''}
+
+    ${career.jobOutlook ? `
+    <div class="modal-section">
+      <div class="modal-section-title">Job Outlook</div>
+      <p>${career.jobOutlook}</p>
+    </div>` : ''}
+  `;
+  document.getElementById('modal').classList.add('open');
+}
+
+function closeModal(e) {
+  if (e.target === document.getElementById('modal')) {
+    document.getElementById('modal').classList.remove('open');
+  }
+}
+
+load();
+</script>
+</body>
+</html>
