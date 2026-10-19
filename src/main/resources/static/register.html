@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sign Up — CareerDNA</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--card:#1a1a24;--border:rgba(255,255,255,0.07);--text:#e8e8f0;--muted:#6b6b80;--accent-a:#7c6aff;--accent-b:#ff6a9e;--accent-c:#6affcc;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;display:flex;flex-direction:column;}
+nav{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 2.5rem;border-bottom:1px solid var(--border);}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.4rem;background:linear-gradient(135deg,var(--accent-a),var(--accent-b));-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-decoration:none;}
+.main{flex:1;display:flex;align-items:center;justify-content:center;padding:2rem;position:relative;}
+.blob{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;}
+.b1{width:500px;height:500px;background:rgba(255,106,158,0.08);top:-100px;right:-100px;}
+.b2{width:400px;height:400px;background:rgba(124,106,255,0.08);bottom:-100px;left:-100px;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:2.5rem;width:100%;max-width:440px;position:relative;}
+h2{font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;letter-spacing:-0.02em;margin-bottom:0.4rem;}
+.sub{color:var(--muted);font-size:0.88rem;margin-bottom:2rem;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;}
+.form-group{margin-bottom:1rem;}
+label{display:block;font-size:0.82rem;font-weight:500;margin-bottom:0.4rem;color:var(--muted);}
+input{width:100%;padding:0.75rem 1rem;background:var(--surface);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.9rem;outline:none;transition:border-color 0.2s;}
+input:focus{border-color:var(--accent-a);}
+input::placeholder{color:var(--muted);}
+.btn{display:flex;align-items:center;justify-content:center;gap:0.5rem;width:100%;padding:0.85rem;border-radius:8px;font-family:'DM Sans',sans-serif;font-weight:500;font-size:0.95rem;cursor:pointer;border:none;margin-top:1.25rem;background:linear-gradient(135deg,var(--accent-a),var(--accent-b));color:#fff;transition:all 0.2s;}
+.btn:hover{opacity:0.9;transform:translateY(-1px);}
+.btn:disabled{opacity:0.5;cursor:not-allowed;transform:none;}
+.switch{text-align:center;margin-top:1.5rem;font-size:0.85rem;color:var(--muted);}
+.switch a{color:var(--accent-a);text-decoration:none;}
+.alert{padding:0.75rem 1rem;border-radius:8px;font-size:0.85rem;margin-bottom:1rem;}
+.alert-error{background:rgba(255,80,80,0.1);border:1px solid rgba(255,80,80,0.2);color:#ff8080;}
+.alert-success{background:rgba(106,255,204,0.1);border:1px solid rgba(106,255,204,0.2);color:var(--accent-c);}
+.perks{display:flex;gap:1rem;margin-bottom:1.75rem;flex-wrap:wrap;}
+.perk{display:flex;align-items:center;gap:0.4rem;font-size:0.78rem;color:var(--muted);}
+.perk span{color:var(--accent-c);}
+</style>
+</head>
+<body>
+<nav>
+  <a href="../index.html" class="logo">CareerDNA</a>
+</nav>
+<div class="main">
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="card">
+    <h2>Start your journey</h2>
+    <p class="sub">Create a free account to take the test</p>
+
+    <div class="perks">
+      <div class="perk"><span>✓</span> Free forever</div>
+      <div class="perk"><span>✓</span> 8-question test</div>
+      <div class="perk"><span>✓</span> Save your results</div>
+    </div>
+
+    <div id="alert" style="display:none" class="alert"></div>
+
+    <div class="form-group">
+      <label>Full Name</label>
+      <input type="text" id="fullName" placeholder="Jane Doe" />
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" id="username" placeholder="jane_doe" autocomplete="username" />
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="email" placeholder="jane@email.com" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Password <small style="color:var(--muted)">(min 6 chars)</small></label>
+      <input type="password" id="password" placeholder="••••••••" autocomplete="new-password" />
+    </div>
+
+    <button class="btn" id="register-btn" onclick="doRegister()">Create Account →</button>
+    <div class="switch">
+      Already have an account? <a href="login.html">Log in</a>
+    </div>
+  </div>
+</div>
+
+<script src="../js/api.js"></script>
+<script>
+if (isLoggedIn()) window.location.href = 'dashboard.html';
+
+function showAlert(msg, type='error') {
+  const el = document.getElementById('alert');
+  el.className = `alert alert-${type}`;
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+
+async function doRegister() {
+  const fullName = document.getElementById('fullName').value.trim();
+  const username = document.getElementById('username').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value.trim();
+  const btn = document.getElementById('register-btn');
+
+  if (!username || !email || !password) return showAlert('Please fill in all required fields');
+  if (password.length < 6) return showAlert('Password must be at least 6 characters');
+
+  btn.disabled = true;
+  btn.textContent = 'Creating account...';
+
+  try {
+    const data = await AuthAPI.register(username, email, password, fullName);
+    saveAuth(data);
+    showAlert('Account created! Redirecting...', 'success');
+    setTimeout(() => window.location.href = 'test.html', 900);
+  } catch(e) {
+    showAlert(e.message);
+    btn.disabled = false;
+    btn.textContent = 'Create Account →';
+  }
+}
+</script>
+</body>
+</html>
