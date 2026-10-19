@@ -217,9 +217,6 @@ INSERT INTO careers (title, description, personality_type, skills_required, aver
  'Associate\'s degree or CompTIA A+/Network+ certification',
  'Responding to help desk tickets, setting up computers, diagnosing network issues, documenting fixes.', true);
 
--- ==============================================
--- Admin user (password: Admin@123)
--- BCrypt hash of 'Admin@123'
--- ==============================================
+
 INSERT INTO users (username, email, password, full_name, role, created_at) VALUES
 ('admin', 'admin@careerapp.com', '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lL.K', 'System Admin', 'ADMIN', NOW());
