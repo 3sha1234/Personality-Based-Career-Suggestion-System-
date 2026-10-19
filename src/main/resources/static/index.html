@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CareerDNA — Discover Your Path</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+<style>
+:root {
+  --bg: #0a0a0f;
+  --surface: #13131a;
+  --card: #1a1a24;
+  --border: rgba(255,255,255,0.07);
+  --text: #e8e8f0;
+  --muted: #6b6b80;
+  --accent-a: #7c6aff;
+  --accent-b: #ff6a9e;
+  --accent-c: #6affcc;
+  --accent-d: #ffb86a;
+  --accent-e: #6aaeff;
+  --glow: rgba(124,106,255,0.15);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* NOISE OVERLAY */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 1000; opacity: 0.4;
+}
+
+/* NAV */
+nav {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.25rem 2.5rem;
+  border-bottom: 1px solid var(--border);
+  background: rgba(10,10,15,0.8);
+  backdrop-filter: blur(20px);
+  position: sticky; top: 0; z-index: 100;
+}
+
+.logo {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800; font-size: 1.4rem;
+  background: linear-gradient(135deg, var(--accent-a), var(--accent-b));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  letter-spacing: -0.02em;
+}
+
+.nav-links { display: flex; gap: 1.5rem; align-items: center; }
+.nav-links a {
+  color: var(--muted); text-decoration: none;
+  font-size: 0.9rem; font-weight: 500;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--text); }
+
+.btn {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.6rem 1.4rem; border-radius: 8px;
+  font-family: 'DM Sans', sans-serif; font-weight: 500; font-size: 0.9rem;
+  cursor: pointer; border: none; text-decoration: none;
+  transition: all 0.2s;
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent-a), var(--accent-b));
+  color: #fff;
+}
+.btn-primary:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(124,106,255,0.3); }
+.btn-outline {
+  background: transparent; color: var(--text);
+  border: 1px solid var(--border);
+}
+.btn-outline:hover { background: var(--card); border-color: var(--accent-a); }
+
+/* HERO */
+.hero {
+  padding: 7rem 2.5rem 5rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-blob {
+  position: absolute;
+  border-radius: 50%; filter: blur(100px); pointer-events: none;
+}
+.blob-1 { width: 600px; height: 600px; background: rgba(124,106,255,0.12); top: -200px; left: 50%; transform: translateX(-50%); }
+.blob-2 { width: 400px; height: 400px; background: rgba(255,106,158,0.08); top: 100px; right: -100px; }
+.blob-3 { width: 300px; height: 300px; background: rgba(106,255,204,0.07); top: 150px; left: -50px; }
+
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  background: rgba(124,106,255,0.1); border: 1px solid rgba(124,106,255,0.2);
+  color: var(--accent-a); padding: 0.35rem 1rem;
+  border-radius: 100px; font-size: 0.8rem; font-weight: 500;
+  margin-bottom: 2rem;
+}
+
+.hero h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(3rem, 8vw, 6rem);
+  font-weight: 800; line-height: 1.05;
+  letter-spacing: -0.03em;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.gradient-word {
+  background: linear-gradient(135deg, var(--accent-a) 0%, var(--accent-b) 50%, var(--accent-d) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+.hero p {
+  font-size: 1.15rem; color: var(--muted); max-width: 520px;
+  margin: 0 auto 2.5rem; line-height: 1.7; font-weight: 300;
+}
+
+.hero-cta { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+/* PERSONALITY CARDS */
+.personalities {
+  padding: 5rem 2.5rem;
+  max-width: 1200px; margin: 0 auto;
+}
+
+.section-label {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.75rem; font-weight: 700;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 0.75rem;
+}
+
+.section-title {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 800; line-height: 1.1;
+  letter-spacing: -0.02em; margin-bottom: 3rem;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.personality-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.75rem 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  position: relative; overflow: hidden;
+}
+
+.personality-card::before {
+  content: '';
+  position: absolute; inset: 0;
+  opacity: 0; transition: opacity 0.3s;
+}
+
+.personality-card:hover { transform: translateY(-4px); }
+.personality-card:hover::before { opacity: 1; }
+
+.card-analytical::before { background: radial-gradient(circle at 30% 30%, rgba(124,106,255,0.12), transparent); }
+.card-creative::before   { background: radial-gradient(circle at 30% 30%, rgba(255,106,158,0.12), transparent); }
+.card-social::before     { background: radial-gradient(circle at 30% 30%, rgba(106,255,204,0.12), transparent); }
+.card-leadership::before { background: radial-gradient(circle at 30% 30%, rgba(255,184,106,0.12), transparent); }
+.card-practical::before  { background: radial-gradient(circle at 30% 30%, rgba(106,174,255,0.12), transparent); }
+
+.card-analytical:hover { border-color: rgba(124,106,255,0.4); }
+.card-creative:hover   { border-color: rgba(255,106,158,0.4); }
+.card-social:hover     { border-color: rgba(106,255,204,0.4); }
+.card-leadership:hover { border-color: rgba(255,184,106,0.4); }
+.card-practical:hover  { border-color: rgba(106,174,255,0.4); }
+
+.card-icon {
+  font-size: 2.2rem; margin-bottom: 1rem; display: block;
+}
+
+.card-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem;
+}
+
+.card-desc {
+  font-size: 0.82rem; color: var(--muted); line-height: 1.5;
+}
+
+.card-tag {
+  display: inline-block; margin-top: 1rem;
+  font-size: 0.72rem; font-weight: 500; padding: 0.25rem 0.6rem;
+  border-radius: 4px;
+}
+.tag-a { background: rgba(124,106,255,0.15); color: var(--accent-a); }
+.tag-b { background: rgba(255,106,158,0.15); color: var(--accent-b); }
+.tag-c { background: rgba(106,255,204,0.15); color: var(--accent-c); }
+.tag-d { background: rgba(255,184,106,0.15); color: var(--accent-d); }
+.tag-e { background: rgba(106,174,255,0.15); color: var(--accent-e); }
+
+/* HOW IT WORKS */
+.how-it-works {
+  padding: 5rem 2.5rem;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.how-inner { max-width: 1200px; margin: 0 auto; }
+
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 2rem; margin-top: 3rem;
+}
+
+.step {
+  display: flex; gap: 1.25rem; align-items: flex-start;
+}
+
+.step-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 2.5rem; font-weight: 800;
+  color: var(--border); line-height: 1;
+  flex-shrink: 0;
+}
+
+.step-content h3 {
+  font-family: 'Syne', sans-serif;
+  font-size: 1rem; font-weight: 700; margin-bottom: 0.4rem;
+}
+
+.step-content p {
+  font-size: 0.85rem; color: var(--muted); line-height: 1.6;
+}
+
+/* CTA SECTION */
+.cta-section {
+  padding: 6rem 2.5rem;
+  text-align: center;
+}
+
+.cta-box {
+  max-width: 600px; margin: 0 auto;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 24px; padding: 3.5rem;
+  position: relative; overflow: hidden;
+}
+
+.cta-box::before {
+  content: '';
+  position: absolute; top: -80px; left: 50%; transform: translateX(-50%);
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(124,106,255,0.1), transparent 70%);
+  pointer-events: none;
+}
+
+.cta-box h2 {
+  font-family: 'Syne', sans-serif;
+  font-size: 2rem; font-weight: 800; margin-bottom: 1rem;
+  letter-spacing: -0.02em;
+}
+
+.cta-box p { color: var(--muted); margin-bottom: 2rem; line-height: 1.6; }
+
+/* AUTH PAGE */
+.auth-wrapper {
+  min-height: 100vh; display: flex; align-items: center; justify-content: center;
+  padding: 2rem;
+}
+
+.auth-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px; padding: 2.5rem;
+  width: 100%; max-width: 420px;
+}
+
+.auth-card h2 {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.8rem; font-weight: 800; margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
+}
+
+.auth-card p { color: var(--muted); font-size: 0.9rem; margin-bottom: 2rem; }
+
+.form-group { margin-bottom: 1rem; }
+.form-group label {
+  display: block; font-size: 0.82rem; font-weight: 500;
+  margin-bottom: 0.4rem; color: var(--muted);
+}
+
+.form-input {
+  width: 100%; padding: 0.75rem 1rem;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 8px; color: var(--text);
+  font-family: 'DM Sans', sans-serif; font-size: 0.9rem;
+  transition: border-color 0.2s;
+  outline: none;
+}
+
+.form-input:focus { border-color: var(--accent-a); }
+
+.form-input::placeholder { color: var(--muted); }
+
+.btn-full { width: 100%; justify-content: center; padding: 0.8rem; margin-top: 1.25rem; }
+
+.auth-switch {
+  text-align: center; margin-top: 1.5rem;
+  font-size: 0.85rem; color: var(--muted);
+}
+
+.auth-switch a { color: var(--accent-a); text-decoration: none; }
+
+.alert {
+  padding: 0.75rem 1rem; border-radius: 8px; font-size: 0.85rem;
+  margin-bottom: 1rem;
+}
+.alert-error { background: rgba(255,80,80,0.1); border: 1px solid rgba(255,80,80,0.2); color: #ff8080; }
+.alert-success { background: rgba(106,255,204,0.1); border: 1px solid rgba(106,255,204,0.2); color: var(--accent-c); }
+
+/* FOOTER */
+footer {
+  padding: 2rem 2.5rem; border-top: 1px solid var(--border);
+  text-align: center; color: var(--muted); font-size: 0.82rem;
+}
+
+/* ANIMATIONS */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-up { animation: fadeUp 0.6s ease forwards; }
+.fade-up-1 { animation-delay: 0.1s; opacity: 0; }
+.fade-up-2 { animation-delay: 0.25s; opacity: 0; }
+.fade-up-3 { animation-delay: 0.4s; opacity: 0; }
+.fade-up-4 { animation-delay: 0.55s; opacity: 0; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">CareerDNA</div>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="pages/test.html">Take Test</a>
+    <a href="pages/careers.html">Careers</a>
+    <a href="pages/login.html" class="btn btn-outline">Log In</a>
+    <a href="pages/register.html" class="btn btn-primary">Get Started</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-blob blob-1"></div>
+  <div class="hero-blob blob-2"></div>
+  <div class="hero-blob blob-3"></div>
+
+  <div class="hero-eyebrow fade-up fade-up-1">
+    <span>✦</span> AI-Powered Career Discovery
+  </div>
+  <h1 class="fade-up fade-up-2">
+    Find the career<br>
+    <span class="gradient-word">wired for you</span>
+  </h1>
+  <p class="fade-up fade-up-3">
+    Answer 8 personality questions and discover your type.
+    We match your traits to real careers with the skills, salaries, and paths you need.
+  </p>
+  <div class="hero-cta fade-up fade-up-4">
+    <a href="pages/test.html" class="btn btn-primary">Take the Free Test →</a>
+    <a href="pages/careers.html" class="btn btn-outline">Browse Careers</a>
+  </div>
+</section>
+
+<!-- PERSONALITY TYPES -->
+<section class="personalities">
+  <div class="section-label">Personality Types</div>
+  <div class="section-title">5 unique paths.<br>Which one fits you?</div>
+
+  <div class="cards-grid">
+    <div class="personality-card card-analytical">
+      <span class="card-icon">🔬</span>
+      <div class="card-title">Analytical</div>
+      <div class="card-desc">You love data, logic, and solving complex problems through systematic thinking.</div>
+      <div class="card-tag tag-a">Data Scientist · Engineer</div>
+    </div>
+    <div class="personality-card card-creative">
+      <span class="card-icon">🎨</span>
+      <div class="card-title">Creative</div>
+      <div class="card-desc">You thrive expressing ideas, building visual experiences, and storytelling.</div>
+      <div class="card-tag tag-b">Designer · Animator</div>
+    </div>
+    <div class="personality-card card-social">
+      <span class="card-icon">🤝</span>
+      <div class="card-title">Social</div>
+      <div class="card-desc">You energize through people, empathy, and making a real difference in lives.</div>
+      <div class="card-tag tag-c">Teacher · HR Manager</div>
+    </div>
+    <div class="personality-card card-leadership">
+      <span class="card-icon">🚀</span>
+      <div class="card-title">Leadership</div>
+      <div class="card-desc">You're drawn to strategy, direction-setting, and inspiring teams toward goals.</div>
+      <div class="card-tag tag-d">Manager · Entrepreneur</div>
+    </div>
+    <div class="personality-card card-practical">
+      <span class="card-icon">🔧</span>
+      <div class="card-title">Practical</div>
+      <div class="card-desc">You prefer building, fixing, and working with your hands to produce results.</div>
+      <div class="card-tag tag-e">Engineer · IT Specialist</div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-it-works">
+  <div class="how-inner">
+    <div class="section-label">How It Works</div>
+    <div class="section-title">Three steps to<br>career clarity</div>
+
+    <div class="steps-grid">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-content">
+          <h3>Create your account</h3>
+          <p>Sign up free in seconds. Your results are saved to your profile for reference anytime.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-content">
+          <h3>Answer 8 questions</h3>
+          <p>Our personality assessment scores you across 5 trait categories. No trick questions — just honest choices.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-content">
+          <h3>Get matched to careers</h3>
+          <p>See your personality type, dominant traits, and a curated list of careers with required skills and salaries.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-box">
+    <h2>Ready to discover<br>your <span class="gradient-word">career DNA?</span></h2>
+    <p>Join thousands of people who found clarity in under 5 minutes.</p>
+    <a href="pages/register.html" class="btn btn-primary btn-full">Create Free Account →</a>
+  </div>
+</section>
+
+<footer>
+  © 2025 CareerDNA · Built with Java Spring Boot + MySQL
+</footer>
+
+</body>
+</html>
